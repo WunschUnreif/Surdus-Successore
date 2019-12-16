@@ -25,7 +25,7 @@ The project of the encoder is located in [SurdusEncoder](https://github.com/Wuns
 
 ### Decoder
 
-The project of the decoder is located in [SurdusDncoder](https://github.com/WunschUnreif/Surdus-Successore/tree/master/Products/SurdusDecoder). It is auto-adaptive to the encoding method and the transmit rate. User does not need any extra configuration. There is just a "Run" button to start the decoding.
+The project of the decoder is located in [SurdusDecoder](https://github.com/WunschUnreif/Surdus-Successore/tree/master/Products/SurdusDecoder). It is auto-adaptive to the encoding method and the transmit rate. User does not need any extra configuration. There is just a "Run" button to start the decoding.
 
 
 
