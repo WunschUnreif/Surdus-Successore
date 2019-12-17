@@ -51,9 +51,9 @@ class ViewController: NSViewController, NSOpenSavePanelDelegate {
     
     func updateRate(_ rate: Double, usePhase: Bool) {
         if usePhase {
-            slideRate.maxValue = 1000
+            slideRate.maxValue = 1200
         } else {
-            slideRate.maxValue = 400
+            slideRate.maxValue = 600
         }
         
         let realRate = min(slideRate.maxValue, rate)
