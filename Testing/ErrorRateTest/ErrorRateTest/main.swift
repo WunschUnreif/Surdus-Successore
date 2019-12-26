@@ -65,7 +65,7 @@ let encoder = SEAdvancedEncoder()
 encoder.clearData()
 
 // You can change this to test under different conditions.
-encoder.transmitRateBPS = (1200, true)
+encoder.transmitRateBPS = (600, false)
 
 var k = 0
 for _ in 0..<100 {
@@ -75,15 +75,19 @@ for _ in 0..<100 {
 
 sleep(1)
 
-let _ = encoder.save(toFile: URL(fileURLWithPath: "./temp.wav"))
-let player = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: "./temp.wav"))
-player.prepareToPlay()
+let _ = encoder.save(toFile: URL(fileURLWithPath: "./ert_f_600bps.wav"))
 
+print("Enter 'stop' to stop or other thing to start test")
+let str = readLine()
+if(str == "stop") {
+    exit(0)
+}
 
-    player.play()
+capturer.start()
 
-
-while player.isPlaying {}
+while(received < 1500) {
+    sleep(1)
+}
 sleep(1)
 
 print("Received Bit: \(received), Error Bit: \(error), Rate: \(Double(error) / Double(received) * 100.0)%")
