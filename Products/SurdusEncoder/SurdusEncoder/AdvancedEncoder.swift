@@ -3,7 +3,7 @@
 //  SurdusEncoder
 //
 //  Created by apple on 2019/12/16.
-//  Copyright © 2019 SJTU. All rights reserved.
+//  Copyright © 2019 @WunschUnreif. All rights reserved.
 //
 
 import Foundation
@@ -87,15 +87,15 @@ class SEAdvancedEncoder {
     
     private func clock() -> Double {
         if encodingInPhase {
-            if evenByte {   // 0 1 1 : Even, Phase
+            if evenByte {   // Even, Phase
                 return sin(2 * .pi * clockFreqs[3] * globalTime)
-            } else {        // 1 1 0 : Odd,  Phase
+            } else {        // Odd,  Phase
                 return sin(2 * .pi * clockFreqs[2] * globalTime)
             }
         } else {
-            if evenByte {   // 0 1 0 : Even, Freq
+            if evenByte {   // Even, Freq
                 return sin(2 * .pi * clockFreqs[1] * globalTime)
-            } else {        // 1 0 0 : Odd,  Freq
+            } else {        // Odd,  Freq
                 return sin(2 * .pi * clockFreqs[0] * globalTime)
             }
         }

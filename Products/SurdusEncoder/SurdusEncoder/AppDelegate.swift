@@ -3,7 +3,7 @@
 //  SurdusEncoder
 //
 //  Created by apple on 2019/12/16.
-//  Copyright © 2019 SJTU. All rights reserved.
+//  Copyright © 2019 @WunschUnreif. All rights reserved.
 //
 
 import Cocoa
