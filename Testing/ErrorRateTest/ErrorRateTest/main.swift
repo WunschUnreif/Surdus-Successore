@@ -65,7 +65,7 @@ let encoder = SEAdvancedEncoder()
 encoder.clearData()
 
 // You can change this to test under different conditions.
-encoder.transmitRateBPS = (600, false)
+encoder.transmitRateBPS = (1200, true)
 
 var k = 0
 for _ in 0..<100 {
@@ -75,7 +75,7 @@ for _ in 0..<100 {
 
 sleep(1)
 
-let _ = encoder.save(toFile: URL(fileURLWithPath: "./ert_f_600bps.wav"))
+let _ = encoder.save(toFile: URL(fileURLWithPath: "./ert_p_1200bps.wav"))
 
 print("Enter 'stop' to stop or other thing to start test")
 let str = readLine()

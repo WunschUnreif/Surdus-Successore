@@ -158,11 +158,11 @@ class SEAdvancedEncoder {
         return result
     }
     
-    private func addPhaseSync() {
+    private func addPhaseSync(ofFrameNum num: Int = 5) {
         // Half of the frequencies
         let buffer1 = AVAudioPCMBuffer(
             pcmFormat: AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 1, interleaved: false)!,
-            frameCapacity: UInt32(sampleRate * codeElementTime)
+            frameCapacity: UInt32(sampleRate * codeElementTime * Double(num))
         )!
         buffer1.frameLength = buffer1.frameCapacity
 
@@ -178,7 +178,7 @@ class SEAdvancedEncoder {
         // Another half
         let buffer2 = AVAudioPCMBuffer(
             pcmFormat: AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 1, interleaved: false)!,
-            frameCapacity: UInt32(sampleRate * codeElementTime)
+            frameCapacity: UInt32(sampleRate * codeElementTime * Double(num))
         )!
         buffer2.frameLength = buffer2.frameCapacity
 
@@ -226,12 +226,18 @@ class SEAdvancedEncoder {
          evenByte = !evenByte
     }
     
+    private var byteCount = 0
+    
     func addData(of16Bit word: UInt16) {
+        byteCount += 2
         if encodingInPhase {
             add16Bit(data: word)
         } else {
             add8Bit(data: UInt8(word >> 8))
             add8Bit(data: UInt8(word & 0x00FF))
+        }
+        if byteCount >= 32 {
+            addPhaseSync(ofFrameNum: 1)
         }
     }
 }

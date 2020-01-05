@@ -52,6 +52,7 @@ class SEAdvancedEncoder {
         signalAudioPCMBuffers = []
         evenByte = true
         globalTime = 0.0
+        byteCnt = 0
         addPhaseSync()
     }
     
@@ -192,6 +193,40 @@ class SEAdvancedEncoder {
         evenByte = !evenByte
     }
     
+    private func addPhaseSync(numOfFrame: Int) {
+        // Half of the frequencies
+        let buffer1 = AVAudioPCMBuffer(
+            pcmFormat: AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 1, interleaved: false)!,
+            frameCapacity: UInt32(sampleRate * codeElementTime * Double(numOfFrame))
+        )!
+        buffer1.frameLength = buffer1.frameCapacity
+
+        for index in 0..<buffer1.frameCapacity {
+            buffer1.floatChannelData![0][Int(index)] = Float(sync())
+            globalTime += 1 / sampleRate
+        }
+       
+        signalAudioPCMBuffers.append(buffer1)
+        
+        evenByte = !evenByte
+        
+        // Another half
+        let buffer2 = AVAudioPCMBuffer(
+            pcmFormat: AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 1, interleaved: false)!,
+            frameCapacity: UInt32(sampleRate * codeElementTime * Double(numOfFrame))
+        )!
+        buffer2.frameLength = buffer2.frameCapacity
+
+        for index in 0..<buffer2.frameCapacity {
+            buffer2.floatChannelData![0][Int(index)] = Float(sync())
+            globalTime += 1 / sampleRate
+        }
+        
+        signalAudioPCMBuffers.append(buffer2)
+        
+        evenByte = !evenByte
+    }
+    
     private func add8Bit(data: UInt8) {
         let buffer = AVAudioPCMBuffer(
              pcmFormat: AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 1, interleaved: false)!,
@@ -226,12 +261,18 @@ class SEAdvancedEncoder {
          evenByte = !evenByte
     }
     
+    private var byteCnt = 0
+    
     func addData(of16Bit word: UInt16) {
         if encodingInPhase {
             add16Bit(data: word)
         } else {
             add8Bit(data: UInt8(word & 0x00FF))
             add8Bit(data: UInt8(word >> 8))
+        }
+        byteCnt += 2
+        if(byteCnt >= 32) {
+            addPhaseSync(numOfFrame: 1)
         }
     }
 }

@@ -31,13 +31,11 @@ The project of the decoder is located in [SurdusDecoder](https://github.com/Wuns
 
 ### Known Issue
 
-- Due to the high error rate and the malfunctioning byte order, we do not recommend you to transmit non-ascii data using the products.
-- The phase of audio is quite vulnerable since the wave length of those frequencies we used is less then 3cm. So phase modulation does not work well for mobile communications.
 - Sometimes the decoder recognizes extra data after the sound is finished since there may be echo waves. This can be fixed by adding frame head and tails. But since we focus on the physical layer only, this problem is not very severe to us.
 
 
 
 ## Report
 
-We will provide our project report and the presentation slides in the futrue.
+We provided our presentation slides in the `Report/` folder.
 
