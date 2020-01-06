@@ -5,7 +5,7 @@ Audio Based Side Channel Communication  [SJTU CS339 Fall 2019 Final Project]
 
 ## Project Overview
 
-In this project, we implemented a method of communcation using audio signals that is not sensible to most adults. By integrating the frequency domain modulation and the phase domain modulation, we achieved a transmit rate up to 1200 bps.
+In this project, we implemented a method of communcation using audio signals that is not sensible to most adults. By integrating the frequency domain modulation and the phase domain modulation, we achieved a transmit rate up to 1200 bps (actually 1500bps, but higher than 1200bps is not recommand).
 
 
 
@@ -37,5 +37,11 @@ The project of the decoder is located in [SurdusDecoder](https://github.com/Wuns
 
 ## Report
 
-We provided our presentation slides in the `Report/` folder.
+We provided our presentation slides in the `Report/` folder, made by Apple® Keynote.
+
+
+
+## Testing
+
+In the folder [Testing/ErrorRateTest](https://github.com/WunschUnreif/Surdus-Successore/tree/master/Testing/ErrorRateTest), we provided our test program on error rate. The results of our experiment can be found in the `Resule/` directory, which is a spreadsheet. You can test it by youself using the testing audio we provided in the `TestAudio/` directory or you can generate other audio with the test program.
 

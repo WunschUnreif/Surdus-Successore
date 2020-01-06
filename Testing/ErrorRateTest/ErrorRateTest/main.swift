@@ -11,7 +11,7 @@ import AVFoundation
 
 print("Hello, World!")
 
-let testTarget: [UInt16] = [0x5555, 0x5a5a, 0x1212, 0xcdcd]
+let testTarget: [UInt16] = [0x5a5a, 0xa5a5, 0x1234, 0xcdef]
 
 var received = 0
 var error = 0
@@ -24,6 +24,28 @@ func countBit(data:UInt16) -> Int {
         temp = temp >> 1
     }
     return result
+}
+
+let encoder = SEAdvancedEncoder()
+
+encoder.clearData()
+
+// You can change this to test under different conditions.
+encoder.transmitRateBPS = (1600, true)
+
+var k = 0
+for _ in 0..<60 {
+    encoder.addData(of16Bit: testTarget[k])
+    k = (k + 1) % 4
+}
+
+let _ = encoder.save(toFile: URL(fileURLWithPath:
+    "./ert_\(encoder.transmitRateBPS.phaseMod ? "p" : "f")_\(Int(encoder.transmitRateBPS.bps))bps.wav"))
+
+print("Enter 'stop' to stop or other thing to start test")
+let str = readLine()
+if(str == "stop") {
+    exit(0)
 }
 
 let capturer = SDAudioCapturer(sampleRate: 96000)
@@ -41,8 +63,9 @@ analytics.updateHandle = { anal in
 }
 
 var cnter = 0
+var low8: UInt8 = 0
 decoder.newFrameHandle = { (data, is16bit) in
-    if received >= 1600 {
+    if received >= 960 {
         return
     }
     if is16bit {
@@ -50,43 +73,27 @@ decoder.newFrameHandle = { (data, is16bit) in
         received += 16
         cnter += 2
     } else {
-        error += countBit(data: data ^ (testTarget[Int(cnter) / 2] & 0xFF))
         received += 8
+        if cnter % 2 == 0 {
+            low8 = UInt8(data)
+        } else {
+            error += countBit(data: ((data << 8) | (UInt16(low8))) ^ testTarget[Int(cnter) / 2])
+        }
         cnter += 1
-        
     }
     if cnter > 7 {
         cnter = 0
     }
 }
-capturer.start()
-
-let encoder = SEAdvancedEncoder()
-encoder.clearData()
-
-// You can change this to test under different conditions.
-encoder.transmitRateBPS = (1200, true)
-
-var k = 0
-for _ in 0..<100 {
-    encoder.addData(of16Bit: testTarget[k])
-    k = (k + 1) % 4
-}
-
-sleep(1)
-
-let _ = encoder.save(toFile: URL(fileURLWithPath: "./ert_p_1200bps.wav"))
-
-print("Enter 'stop' to stop or other thing to start test")
-let str = readLine()
-if(str == "stop") {
-    exit(0)
-}
 
 capturer.start()
 
-while(received < 1500) {
+let starttime = Date()
+while(received < 900) {
     sleep(1)
+    if(Date().timeIntervalSince(starttime) > 10) {
+        break;
+    }
 }
 sleep(1)
 
