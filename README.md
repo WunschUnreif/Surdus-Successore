@@ -19,7 +19,7 @@ We only provide the source codes and XCode projects of the products. You may bui
 
 ### Encoder
 
-The project of the encoder is located in [SurdusEncoder](https://github.com/WunschUnreif/Surdus-Successore/tree/master/Products/SurdusEncoder). It provides a user interface to choose the transmit rate and whether to use phase domain modulation or not. When using phase modulation, the transmit rate can be set up to 1200 bps, but no more than 800 bps is recommended. When using frequency modulation only, the transmit rate is limitted to 600 bps, but no more than 400 bps is recommended. The encoded audio signals can be played immediately or stored to your file system as a ``wav`` file.
+The project of the encoder is located in [SurdusEncoder](https://github.com/WunschUnreif/Surdus-Successore/tree/master/Products/SurdusEncoder). It provides a user interface to choose the transmit rate and whether to use phase domain modulation or not. When using phase modulation, the transmit rate can be set up to 1500 bps, but no more than 1200 bps is recommended. When using frequency modulation only, the transmit rate is limitted to 600 bps, but no more than 400 bps is recommended. The encoded audio signals can be played immediately or stored to your file system as a ``wav`` file.
 
 
 
@@ -32,12 +32,16 @@ The project of the decoder is located in [SurdusDecoder](https://github.com/Wuns
 ### Known Issue
 
 - Sometimes the decoder recognizes extra data after the sound is finished since there may be echo waves. This can be fixed by adding frame head and tails. But since we focus on the physical layer only, this problem is not very severe to us.
+- The encoder and decoder might not work well with external microphones or speakers. You may only use the built-in microphone for decoding.
+- When transmitting non-ascii characters, the UTF-8 encoding is used. Since it doesn't feature a resynchronization function, a single error bit may cause the display error of the whole sentence.
 
 
 
 ## Report
 
 We provided our presentation slides in the `Report/` folder, made by Apple® Keynote.
+
+The project report is also provided.
 
 
 

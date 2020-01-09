@@ -51,7 +51,7 @@ class ViewController: NSViewController, NSOpenSavePanelDelegate {
     
     func updateRate(_ rate: Double, usePhase: Bool) {
         if usePhase {
-            slideRate.maxValue = 1200
+            slideRate.maxValue = 1500
         } else {
             slideRate.maxValue = 600
         }
